@@ -14,11 +14,14 @@ public class RandomGenerator {
      * Generate a set of integers from a PRNG and a CSPRNG using built-in functions. [DONE]
      * Request the same size/range integers from Random.org using their HTTP Interface. [DONE]
      * Create Eucledian Algorithm. [DONE]
-     * Count the number of pairs with gcd = 1 using the Eucledian algorithm [PROGRESS]
+     * Count the number of pairs with gcd = 1 using the Eucledian algorithm [DONE]
      * Calculate the statistical estimate of Pi using Cesaro's Theorem from the TRNG, PRNG, and CSPRNG. []
+     * Create 30 statistical estimates of Pi []
      */
+
+    
     public static void main(String[] args) {
-        int pairs = 6;
+        int pairs = 100;
         Random random = new Random();
         SecureRandom srandom = new SecureRandom();
         TrueRandom trandom = new TrueRandom(pairs);
@@ -34,19 +37,21 @@ public class RandomGenerator {
         }
 
         // Testing
-        for (int i : prng) {
-            System.out.println("PRNG: " + i);
-        }
+        // for (int i : prng) {
+        //     System.out.println("PRNG: " + i);
+        // }
 
-        for (int i : csprng) {
-            System.out.println("CSPRNG: " + i);
-        }
+        // for (int i : csprng) {
+        //     System.out.println("CSPRNG: " + i);
+        // }
 
-        for (int i : trng) {
-            System.out.println("TRNG: " + i);
-        }
+        // for (int i : trng) {
+        //     System.out.println("TRNG: " + i);
+        // }
 
-        System.out.println("GCD: " + EuclideanAlgorithm(10, 28));
+        System.out.println("(TRNG) GCD Equal to 1: " + GCDCount(trng));
+        System.out.println("(PRNG) GCD Equal to 1: " + GCDCount(prng));
+        System.out.println("(CSPRNG) GCD Equal to 1: " + GCDCount(csprng));
     }
 
     /**
@@ -79,7 +84,11 @@ public class RandomGenerator {
         int count = 0;
 
         for (int i = 0; i < array.length;) {
-            
+            if(EuclideanAlgorithm(array[i], array[i+1]) == 1) {
+                count++;
+            }
+
+            i += 2;
         }
 
         return count;
