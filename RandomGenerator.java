@@ -2,13 +2,21 @@
  * RandomGenerator : main class for comparing each random class
  * 
  * @author Gideon Antwi & Chindeum Egeh
- * @version 10/23/2021
+ * @version 10/30/2021
  */
 
 import java.util.Random;
 import java.security.SecureRandom;
 
 public class RandomGenerator {
+    /**
+     * TODO:
+     * Generate a set of integers from a PRNG and a CSPRNG using built-in functions. [DONE]
+     * Request the same size/range integers from Random.org using their HTTP Interface. [DONE]
+     * Create Eucledian Algorithm. [DONE]
+     * Count the number of pairs with gcd = 1 using the Eucledian algorithm [PROGRESS]
+     * Calculate the statistical estimate of Pi using Cesaro's Theorem from the TRNG, PRNG, and CSPRNG. []
+     */
     public static void main(String[] args) {
         int pairs = 6;
         Random random = new Random();
@@ -28,7 +36,6 @@ public class RandomGenerator {
         // Testing
         for (int i : prng) {
             System.out.println("PRNG: " + i);
-            System.out.println("GCD: " + EuclideanAlgorithm(10, 28));
         }
 
         for (int i : csprng) {
@@ -61,5 +68,20 @@ public class RandomGenerator {
             return x;
 
         return (EuclideanAlgorithm(y, x % y));
+    }
+
+    /**
+     * Returns how many pairs have a GCD of 1
+     * @param array
+     * @return number of pairs with GCD = 1
+     */
+    public static int GCDCount(int[] array) {
+        int count = 0;
+
+        for (int i = 0; i < array.length;) {
+            
+        }
+
+        return count;
     }
 }
