@@ -17,8 +17,8 @@ public class RandomGenerator {
      * Count the number of pairs with gcd = 1 using the Eucledian algorithm [DONE]
      * Calculate the statistical estimate of Pi using Cesaro's Theorem from the TRNG, PRNG, and CSPRNG. []
      * Create 30 statistical estimates of Pi []
+     * Generate a frequency distribution table, calculate the average, and the standard deviation for each RNG. []
      */
-
     
     public static void main(String[] args) {
         int pairs = 100;
@@ -26,12 +26,12 @@ public class RandomGenerator {
         SecureRandom srandom = new SecureRandom();
         TrueRandom trandom = new TrueRandom(pairs);
 
-        int[] prng = new int[pairs];
-        int[] csprng = new int[pairs];
+        int[] prng = new int[pairs * 2];
+        int[] csprng = new int[pairs * 2];
         int[] trng = trandom.getTrueRandom();
 
         // Create Random Generated Numbers
-        for (int i = 0; i < pairs; i++) {
+        for (int i = 0; i < pairs * 2; i++) {
             prng[i] = random.nextInt(100) + 1; // Get Random int from RandomClass
             csprng[i] = srandom.nextInt(100) + 1; // Get Random int from SecureRandomClass
         }
@@ -90,6 +90,8 @@ public class RandomGenerator {
 
             i += 2;
         }
+
+        // System.out.println("PI Estimate");
 
         return count;
     }

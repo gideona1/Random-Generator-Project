@@ -2,7 +2,7 @@
  * TrueRandom : generates array with fetched random numbers from random.org
  * 
  * @author Gideon Antwi & Chindeum Egeh
- * @version 10/23/2021
+ * @version 10/30/2021
  */
 
 import java.util.Scanner;
@@ -39,8 +39,8 @@ public class TrueRandom {
      * @return array of random int numbers
      */
     public int[] getTrueRandom() {
-        String address = "https://www.random.org/integers/?num=" + pairs + "&min=" + min +"&max=" + max +"&col=2&base=10&format=plain&rnd=new";
-        int[] numbers = new int[pairs];
+        String address = "https://www.random.org/integers/?num=" + pairs * 2 + "&min=" + min +"&max=" + max +"&col=2&base=10&format=plain&rnd=new";
+        int[] numbers = new int[pairs * 2];
         
         try {
             int ticks = 0;
