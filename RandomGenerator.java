@@ -30,11 +30,15 @@ public class RandomGenerator {
         int[] csprng = new int[pairs * 2];
         int[] trng = trandom.getTrueRandom();
 
-        // Create Random Generated Numbers
-        for (int i = 0; i < pairs * 2; i++) {
-            prng[i] = random.nextInt(100) + 1; // Get Random int from RandomClass
-            csprng[i] = srandom.nextInt(100) + 1; // Get Random int from SecureRandomClass
-        }
+        // // Create Random Generated Numbers
+        // for (int i = 0; i < pairs * 2; i++) {
+        //     prng[i] = random.nextInt(100) + 1; // Get Random int from RandomClass
+        //     csprng[i] = srandom.nextInt(100) + 1; // Get Random int from SecureRandomClass
+        // }
+
+        double[] prngEstimates = new double[30];
+        double[] csprngEstimates = new double[30];
+        double[] trngEstimates = new double[30];
 
         // Testing
         // for (int i : prng) {
@@ -49,9 +53,47 @@ public class RandomGenerator {
         //     System.out.println("TRNG: " + i);
         // }
 
-        System.out.println("(TRNG) GCD Equal to 1: " + GCDCount(trng));
-        System.out.println("(PRNG) GCD Equal to 1: " + GCDCount(prng));
-        System.out.println("(CSPRNG) GCD Equal to 1: " + GCDCount(csprng));
+        for (int i = 0; i < 30; i++) {
+            // Create Random Generated Numbers
+            for (int j = 0; j < pairs * 2; j++) {
+                prng[j] = random.nextInt(100) + 1; // Get Random int from RandomClass
+                csprng[j] = srandom.nextInt(100) + 1; // Get Random int from SecureRandomClass
+            }
+
+            trng = trandom.getTrueRandom();
+
+            System.out.println("CASE: "+ (i+1));
+            System.out.println("-----------------------------");
+
+            System.out.println("(TRNG) GCD Equal to 1: " + GCDCount(trng));
+            trngEstimates[i] = GetPIEstimate(GCDCount(trng), 100);
+            System.out.println("(TRNG) PI Estimate: " + trngEstimates[i]);
+            System.out.println("(TRNG) Difference: " + (trngEstimates[i] -  Math.PI)  + "\n");
+
+            System.out.println("(PRNG) GCD Equal to 1: " + GCDCount(prng));
+            prngEstimates[i] = GetPIEstimate(GCDCount(prng), 100);
+            System.out.println("(PRNG) PI Estimate: " + prngEstimates[i]);
+            System.out.println("(PRNG) Difference: " + (prngEstimates[i] -  Math.PI)  + "\n");
+
+            System.out.println("(CSPRNG) GCD Equal to 1: " + GCDCount(csprng));
+            csprngEstimates[i] = GetPIEstimate(GCDCount(csprng), 100);
+            System.out.println("(CSPRNG) PI Estimate: " + csprngEstimates[i]);
+            System.out.println("(CSPRNG) Difference: " + (csprngEstimates[i] -  Math.PI)  + "\n");
+        }
+
+        // Averages
+        System.out.println("(TRNG) Pi Estimate Average: " + GetAverage(trngEstimates));
+        System.out.println("(PRNG) Pi Estimate Average: " + GetAverage(prngEstimates));
+        System.out.println("(CSPRNG) Pi Estimate Average: " + GetAverage(csprngEstimates));
+    }
+
+    public static double GetAverage(double[] estimates) {
+        double total = 0;
+        for (int i = 0; i < estimates.length; i++) {
+            total += estimates[i];
+        }
+
+        return total / estimates.length;
     }
 
     /**
@@ -91,8 +133,16 @@ public class RandomGenerator {
             i += 2;
         }
 
-        // System.out.println("PI Estimate");
-
         return count;
+    }
+
+    /**
+     * Returns statistical estimate of Pi
+     * @param count number of pairs with GCD of 1
+     * @param total number of pairs
+     * @return pi estimate
+     */
+    public static double GetPIEstimate(int count, int total) {
+        return (double)(6 * count) / total;
     }
 }
