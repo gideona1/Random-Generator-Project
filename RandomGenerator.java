@@ -30,28 +30,9 @@ public class RandomGenerator {
         int[] csprng = new int[pairs * 2];
         int[] trng = trandom.getTrueRandom();
 
-        // // Create Random Generated Numbers
-        // for (int i = 0; i < pairs * 2; i++) {
-        //     prng[i] = random.nextInt(100) + 1; // Get Random int from RandomClass
-        //     csprng[i] = srandom.nextInt(100) + 1; // Get Random int from SecureRandomClass
-        // }
-
         double[] prngEstimates = new double[30];
         double[] csprngEstimates = new double[30];
         double[] trngEstimates = new double[30];
-
-        // Testing
-        // for (int i : prng) {
-        //     System.out.println("PRNG: " + i);
-        // }
-
-        // for (int i : csprng) {
-        //     System.out.println("CSPRNG: " + i);
-        // }
-
-        // for (int i : trng) {
-        //     System.out.println("TRNG: " + i);
-        // }
 
         for (int i = 0; i < 30; i++) {
             // Create Random Generated Numbers
@@ -62,6 +43,7 @@ public class RandomGenerator {
 
             trng = trandom.getTrueRandom();
 
+            // Display Cases
             System.out.println("CASE: "+ (i+1));
             System.out.println("-----------------------------");
 
@@ -82,9 +64,17 @@ public class RandomGenerator {
         }
 
         // Averages
+        System.out.println("AVERAGE: ");
+        System.out.println("-----------------------------");
+
         System.out.println("(TRNG) Pi Estimate Average: " + GetAverage(trngEstimates));
         System.out.println("(PRNG) Pi Estimate Average: " + GetAverage(prngEstimates));
-        System.out.println("(CSPRNG) Pi Estimate Average: " + GetAverage(csprngEstimates));
+        System.out.println("(CSPRNG) Pi Estimate Average: " + GetAverage(csprngEstimates) + "\n");
+
+        // Frequency Table
+        System.out.println("FREQUENCY TABLE: ");
+        System.out.println("-----------------------------");
+        GenerateTable(prngEstimates, trngEstimates, csprngEstimates);
     }
 
     public static double GetAverage(double[] estimates) {
@@ -144,5 +134,39 @@ public class RandomGenerator {
      */
     public static double GetPIEstimate(int count, int total) {
         return (double)(6 * count) / total;
+    }          
+
+    /**
+     * Counts how many values in value are between the min and max
+     * @param estimate
+     * @param min
+     * @param max
+     * @return count
+     */
+    public static int EstimateCount(double[] estimate, double min, double max) {
+        var count = 0;
+        for (int i = 0; i < estimate.length; i++) {
+            if(estimate[i] >= min && estimate[i] < max) {
+                count++;
+            }
+        }
+        return count;
+    }
+
+    /**
+     * Generate frequency dist. table
+     * @param prngEstimate
+     * @param trngEstimate
+     * @param csprngEstimate
+     */
+    public static void GenerateTable(double[] prngEstimate, double[] trngEstimate, double[] csprngEstimate) {
+        System.out.printf("%10s| %8s| %8s| %8s| %8s%n", "ESTIMATES", "TRNG", "PRNG", "CSPRNG", "OVERALL");
+        System.out.printf("%10s| %8d| %8d| %8d| %8d%n", "< 3", EstimateCount(trngEstimate, 0, 3), EstimateCount(prngEstimate, 0, 3), EstimateCount(csprngEstimate, 0, 3), (EstimateCount(trngEstimate, 0, 3) + EstimateCount(prngEstimate, 0, 3) + EstimateCount(csprngEstimate, 0, 3)));
+        System.out.printf("%10s| %8d| %8d| %8d| %8d%n", "3 - 3.2", EstimateCount(trngEstimate, 3, 3.2), EstimateCount(prngEstimate, 3, 3.2), EstimateCount(csprngEstimate, 3, 3.2), (EstimateCount(trngEstimate, 3, 3.2) + EstimateCount(prngEstimate, 3, 3.2) + EstimateCount(csprngEstimate, 3, 3.2)));
+        System.out.printf("%10s| %8d| %8d| %8d| %8d%n", "3.2 - 3.4", EstimateCount(trngEstimate, 3.2, 3.4), EstimateCount(prngEstimate, 3.2, 3.4), EstimateCount(csprngEstimate, 3.2, 3.4), (EstimateCount(trngEstimate, 3.2, 3.4) + EstimateCount(prngEstimate, 3.2, 3.4) + EstimateCount(csprngEstimate, 3.2, 3.4)));
+        System.out.printf("%10s| %8d| %8d| %8d| %8d%n", "3.4 - 3.6", EstimateCount(trngEstimate, 3.4, 3.6), EstimateCount(prngEstimate, 3.4, 3.6), EstimateCount(csprngEstimate, 3.4, 3.6), (EstimateCount(trngEstimate, 3.4, 3.6) + EstimateCount(prngEstimate, 3.4, 3.6) + EstimateCount(csprngEstimate, 3.4, 3.6)));
+        System.out.printf("%10s| %8d| %8d| %8d| %8d%n", "3.6 - 3.8", EstimateCount(trngEstimate, 3.6, 3.8), EstimateCount(prngEstimate, 3.6, 3.8), EstimateCount(csprngEstimate, 3.6, 3.8), (EstimateCount(trngEstimate, 3.6, 3.8) + EstimateCount(prngEstimate, 3.6, 3.8) + EstimateCount(csprngEstimate, 3.6, 3.8)));
+        System.out.printf("%10s| %8d| %8d| %8d| %8d%n", "3.8 - 4", EstimateCount(trngEstimate, 3.8, 4), EstimateCount(prngEstimate, 3.8, 4), EstimateCount(csprngEstimate, 3.8, 4), (EstimateCount(trngEstimate, 3.8, 4) + EstimateCount(prngEstimate, 3.8, 4) + EstimateCount(csprngEstimate, 3.8, 4)));
+        System.out.printf("%10s| %8d| %8d| %8d| %8d%n", "> 4", EstimateCount(trngEstimate, 4, 999), EstimateCount(prngEstimate, 4, 999), EstimateCount(csprngEstimate, 4, 999), (EstimateCount(trngEstimate, 4, 999) + EstimateCount(prngEstimate, 4, 999) + EstimateCount(csprngEstimate, 4, 999)));
     }
 }
