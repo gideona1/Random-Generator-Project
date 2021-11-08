@@ -22,6 +22,8 @@ public class RandomGenerator {
     
     public static void main(String[] args) {
         int pairs = 100;
+        int cases = 30;
+
         Random random = new Random();
         SecureRandom srandom = new SecureRandom();
         TrueRandom trandom = new TrueRandom(pairs);
@@ -30,11 +32,11 @@ public class RandomGenerator {
         int[] csprng = new int[pairs * 2];
         int[] trng = trandom.getTrueRandom();
 
-        double[] prngEstimates = new double[30];
-        double[] csprngEstimates = new double[30];
-        double[] trngEstimates = new double[30];
+        double[] prngEstimates = new double[cases];
+        double[] csprngEstimates = new double[cases];
+        double[] trngEstimates = new double[cases];
 
-        for (int i = 0; i < 30; i++) {
+        for (int i = 0; i < cases; i++) {
             // Create Random Generated Numbers
             for (int j = 0; j < pairs * 2; j++) {
                 prng[j] = random.nextInt(100) + 1; // Get Random int from RandomClass
@@ -188,7 +190,7 @@ public class RandomGenerator {
     }
 
     /**
-     * Get standard deviation from array
+     * Get standard deviation (sample) from array
      * @param estimate - array
      * @return standard deviation
      */
@@ -215,7 +217,7 @@ public class RandomGenerator {
     public static String ErrorCheck(double[] trngValue) {
         for(double values : trngValue) {
             if(values == 0.0) {
-                return "Done. Results for TRNG may not be accurate due to one or more website connection error.";
+                return "Done. Results for TRNG may not be accurate due to one or more website connection error to random.org.";
             }
         }
 
