@@ -190,7 +190,7 @@ public class RandomGenerator {
     /**
      * Get standard deviation from array
      * @param estimate - array
-     * @return
+     * @return standard deviation
      */
     public static double GetStandardDev(double[] estimate) {
         // Get Mean of array
@@ -207,6 +207,11 @@ public class RandomGenerator {
         return Math.sqrt(newSetMean);
     }
 
+    /**
+     * Display whether there was error with the true random generator
+     * @param trngValue
+     * @return success or error message
+     */
     public static String ErrorCheck(double[] trngValue) {
         for(double values : trngValue) {
             if(values == 0.0) {
